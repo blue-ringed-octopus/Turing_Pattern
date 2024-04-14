@@ -1,2 +1,2 @@
 # Turing_Pattern
-![alt text](turing.png)
+![alt text](turing.gif)
