@@ -78,7 +78,7 @@ del_v=laplacian(vt);
     u(:,:,t+1)=unew;
     v(:,:,t+1)=vnew;
 end
-
+fig = figure;
 for t=1:5:tStep
    %  subplot(1,2,1)
    imshow((u(:,:,t)),'InitialMagnification',1000)
@@ -86,9 +86,21 @@ for t=1:5:tStep
      %imshow((v(:,:,t)),'InitialMagnification',1000)
 % image(u(:,:,t),'CDataMapping','scaled')
     title("t="+string(t))
-    pause(0.01)
+ %   pause(0.01)
+    frame = getframe(fig);
+    im{round(t/5)+1} = frame2im(frame);
 end
 
+filename = "turing.gif"; 
+%%
+for idx = 1:length(im)
+    [A,map] = rgb2ind(im{idx},256);
+    if idx == 1
+        imwrite(A,map,filename,"gif","LoopCount",Inf,"DelayTime",1);
+    else
+        imwrite(A,map,filename,"gif","WriteMode","append","DelayTime",0.01);
+    end
+end
 function arrOut = laplacian(arrIn)
 % Calculates laplacian for a matrix using a 3x3 convolution with edge wrapping
 arrOut = -1*arrIn + ...
